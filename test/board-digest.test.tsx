@@ -89,6 +89,18 @@ describe('board event counts', () => {
     await expect(readStatus({ ...config, runsDir: notDirectory })).rejects.toMatchObject({ code: 'ENOTDIR' });
   });
 
+  it('ignores impossible calendar filenames without breaking valid nights', async () => {
+    const { readStatus } = await import('../src/status.js');
+    const config = await temporaryConfig();
+    await writeFile(join(config.runsDir, '2026-10-28.jsonl'), '');
+    await writeFile(join(config.runsDir, '2026-02-30.jsonl'), '');
+
+    const status = await readStatus(config);
+
+    expect(status.nights).toEqual(['2026-10-28']);
+    expect(status.nightCounts).toEqual({ '2026-10-28': { ok: 0, retry: 0, fail: 0 } });
+  });
+
   it('preserves an empty board for a missing runs directory', async () => {
     const { readStatus } = await import('../src/status.js');
     const config = await temporaryConfig();

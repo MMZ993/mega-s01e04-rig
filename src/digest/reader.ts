@@ -27,7 +27,7 @@ export function isMissingNightError(error: unknown): error is NodeJS.ErrnoExcept
 }
 
 /** Check an exact Gregorian YYYY-MM-DD date, including leap days, without normalization. */
-function isCalendarDate(value: string): boolean {
+export function isCalendarDate(value: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const year = Number(value.slice(0, 4));
   const month = Number(value.slice(5, 7));
