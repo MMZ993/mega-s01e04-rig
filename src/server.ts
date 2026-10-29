@@ -8,6 +8,7 @@ const config = loadConfig();
 const port = Number(process.env.PORT ?? 8787);
 
 startBeating(lane().id, config.beatEverySeconds);
-serve({ fetch: createApp(config).fetch, port }, () => {
+// Serve the unauthenticated lane only on loopback; public reviews use static HTML copies.
+serve({ fetch: createApp(config).fetch, hostname: '127.0.0.1', port }, () => {
   console.log(`rig · ${lane().id} · http://localhost:${port}`);
 });

@@ -3,3 +3,8 @@ var/
 .env
 *.png
 .claude/skills
+
+# Public review copies and local worker state must never enter Git.
+/previews/
+/.worktrees/
+/.pnpm-store/
